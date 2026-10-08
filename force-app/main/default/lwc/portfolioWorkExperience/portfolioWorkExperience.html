@@ -1,0 +1,59 @@
+<!-- sldsValidatorIgnore -->
+<template>
+    <div class="exp-list">
+        <template for:each={workExperienceList} for:item="work">
+            <div key={work.id} class="exp-item">
+
+                <!-- Timeline spine: dot + line -->
+                <div class="exp-spine">
+                    <div class="exp-dot">
+                        <lightning-icon icon-name="standard:task" alternative-text="Task" size="small"></lightning-icon>
+                    </div>
+                    <div class="exp-line"></div>
+                </div>
+
+                <!-- Card -->
+                <div class="exp-card">
+
+                    <!-- Top meta: role + dates + chevron toggle -->
+                    <div class="exp-header" data-id={work.id} onclick={toggleDescription}>
+                        <div class="exp-header-left">
+                            <button class="exp-chevron" data-id={work.id}>
+                                <lightning-icon class="exp-chevron-icon" icon-name="utility:chevrondown"
+                                    alternative-text="Toggle" size="x-small">
+                                </lightning-icon>
+                            </button>
+                            <h3 class="exp-role">{work.Role}</h3>
+                        </div>
+                        <span class="exp-dates">
+                            <template if:true={work.IsCurrent}>
+                                {work.JobStartDate} &ndash; Present
+                            </template>
+                            <template if:false={work.IsCurrent}>
+                                {work.JobStartDate} &ndash; {work.JobEndDate}
+                            </template>
+                        </span>
+                    </div>
+
+                    <!-- Company + location + logo -->
+                    <div class="exp-company">
+                        <div class="exp-company-info">
+                            <img src={work.companyLogo} alt={work.companyName} class="exp-logo">
+                            <span class="exp-company-name">{work.companyName}</span>
+                            <span class="exp-location">&middot; {work.WorkLocation}</span>
+                        </div>
+                    </div>
+
+                    <!-- Job description — collapsible, light frosted for black rich text -->
+                    <div class="exp-description" data-desc={work.id}>
+                        <lightning-record-view-form object-api-name={work.apiName} record-id={work.id}>
+                            <lightning-output-field field-name="JobDescription__c" variant="label-hidden">
+                            </lightning-output-field>
+                        </lightning-record-view-form>
+                    </div>
+
+                </div>
+            </div>
+        </template>
+    </div>
+</template>
